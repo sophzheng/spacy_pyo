@@ -41,27 +41,16 @@ async function load_packages(text) {
       
       import spacy
       nlp = spacy.load("en_core_web_sm")
-      
-      def tokenize(sentence):
-          doc = nlp(sentence)
-          return to_js({
-            "token": [
-              {
-                "text": ent.text,
-                "start": ent.start,
-                "end": ent.end,
-                "label": ent.label_,
-                "meaning": spacy.explain(ent.label_)
-              } for ent in doc.ents if ent.label_ in ["GPE", "LOC"]
-            ]
-          })
 
-      final_output = ""
-      for tag in tokenize(text):
-          final_output += f'{str(tag)}, '
-      def return_final_string(final_output):
-          return final_output
-      return_final_string(final_output)
+      def tokenize(sentence):
+        locations = []
+        doc = nlp(sentence)
+        for ent in doc.ents:
+          if ent.label_ in ["GPE", "LOC"]:
+            locations.append(ent.text)
+        return locations
+        
+      tokenize(text)
   `
     )
     .then((output) => (message.innerText = output));

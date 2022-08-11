@@ -9,7 +9,7 @@
 
     "default_popup": "popup_pyo.html"
   },
-  "content_security_policy": "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://cdn.jsdelivr.net/pyodide/v0.21.0a2/full/pyodide.js https://cdn.jsdelivr.net/pyodide/v0.21.0a2/full/pyodide.asm.js; object-src 'self'",
+  "content_security_policy": "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://cdn.jsdelivr.net/pyodide/v0.21.0a2/full/pyodide.js https://cdn.jsdelivr.net/pyodide/v0.21.0a2/full/pyodide.asm.js",
   "permissions": [
     "activeTab",
     "https://ajax.googleapis.com/",
