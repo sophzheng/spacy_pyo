@@ -1,3 +1,6 @@
+
+const startTime = Date.now();
+
 // init Pyodide
 async function pyodide_loader() {
   let pyodide_premise = loadPyodide({
@@ -49,39 +52,27 @@ async function load_packages(text) {
           if ent.label_ in ["GPE", "LOC"]:
             locations.append(ent.text)
         return locations
-        
+
       tokenize(text)
   `
     )
     .then((output) => (message.innerText = output));
-
   //console.log(output);
+  
 }
 
 chrome.runtime.onMessage.addListener(function (request, sender) {
   if (request.action == "getSource") {
-    console.log(request.source);
-    load_packages(request.source);
+    (async() => {
+    
+      console.log(request.source);
+      await load_packages(request.source);
+    
+      const msElapsed = Date.now() - startTime;
+      console.log(`Async function took ${msElapsed / 1000} seconds to complete.`);
+    })();
   }
 });
-
-/*function onWindowLoad(){
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-
-        // since only one tab should be active and in the current window at once
-        // the return variable should only have one entry
-        console.log('test0')
-        var activeTab = tabs[0];
-        var activeTabId = activeTab.url; // or do whatever you need
-        console.log(activeTabId)
-        load_packages(activeTabId)
-        chrome.runtime.sendMessage({
-            action: "getSource",
-            source: activeTabId
-        });
-    
-     });
-  }*/
 
 function onWindowLoad() {
   var message = document.querySelector("#message");
@@ -104,3 +95,4 @@ function onWindowLoad() {
 
 window.onload = onWindowLoad;
 //load_packages()
+
